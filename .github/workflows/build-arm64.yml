@@ -2,9 +2,6 @@ name: Build open.mp ARM64
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
 
 jobs:
   build:
@@ -25,8 +22,7 @@ jobs:
           python3 -m pip install --break-system-packages conan
 
       - name: Configure Conan
-        run: |
-          conan profile detect --force
+        run: conan profile detect --force
 
       - name: Configure
         env:
@@ -36,12 +32,10 @@ jobs:
           cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DTARGET_BUILD_ARCH=armv8
 
       - name: Build
-        run: |
-          cmake --build build --parallel 4
+        run: cmake --build build --parallel 4
 
       - name: Find server
-        run: |
-          find build -type f -name "omp-server" -print
+        run: find build -type f -name "omp-server" -print
 
       - name: Package
         run: |
